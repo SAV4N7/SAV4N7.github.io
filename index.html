@@ -407,6 +407,86 @@
     p { margin-bottom: 0.7rem; }
     ul, ol { margin: 0.5rem 0 0.8rem 1.5rem; }
     li { margin-bottom: 0.3rem; }
+
+    /* Dropdown buttons */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      min-width: 220px;
+      z-index: 200;
+      margin-top: 0.4rem;
+      overflow: hidden;
+    }
+    .dropdown:hover .dropdown-content,
+    .dropdown:focus-within .dropdown-content {
+      display: block;
+    }
+    .dropdown-content a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .dropdown-content a:last-child { border-bottom: none; }
+    .dropdown-content a:hover { background: var(--bg); }
+    .dropdown-header {
+      padding: 0.5rem 1rem 0.3rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-light);
+      background: var(--bg);
+    }
+    .hf-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Resource cards */
+    .resource-group { margin-bottom: 1.5rem; }
+    .resource-group h3 { margin-bottom: 0.8rem; }
+    .resource-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .resource-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .resource-item:hover {
+      border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(52,152,219,0.1);
+    }
+    .resource-item .ri-icon { flex-shrink: 0; }
+    .resource-item .ri-name { font-weight: 600; font-size: 0.9rem; }
+    .resource-item .ri-desc { font-size: 0.8rem; color: var(--text-light); }
   </style>
 </head>
 <body>
@@ -419,7 +499,22 @@
   <div class="acronym">Semantic Analysis with Vision-Augmented Anomaly deTection</div>
   <p class="subtitle">A structured reasoning framework that reformulates VLM-based anomaly detection as layered semantic consistency verification for autonomous driving.</p>
   <div class="hero-links">
-    <a href="https://huggingface.co/u94fmn391j" class="btn-primary">Dataset</a>
+    <div class="dropdown">
+      <a href="#links" class="btn-primary"><svg class="hf-icon" viewBox="0 0 95 88" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> Datasets &#9662;</a>
+      <div class="dropdown-content">
+        <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-small" target="_blank"><svg class="hf-icon" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> CODALM-small <span style="color:var(--text-light);font-size:0.75rem;margin-left:auto;">100 images</span></a>
+        <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-medium" target="_blank"><svg class="hf-icon" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> CODALM-medium <span style="color:var(--text-light);font-size:0.75rem;margin-left:auto;">5,078 images</span></a>
+        <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-large" target="_blank"><svg class="hf-icon" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> CODALM-large <span style="color:var(--text-light);font-size:0.75rem;margin-left:auto;">9,640 images</span></a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <a href="#links" class="btn-primary"><svg class="hf-icon" viewBox="0 0 95 88" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> Models &#9662;</a>
+      <div class="dropdown-content">
+        <a href="https://huggingface.co/u94fmn391j/SAVANT-scene-description-lora" target="_blank"><svg class="hf-icon" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> Scene Description</a>
+        <a href="https://huggingface.co/u94fmn391j/SAVANT-anomaly-classifier-lora" target="_blank"><svg class="hf-icon" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> Anomaly Classifier</a>
+        <a href="https://huggingface.co/u94fmn391j/SAVANT-multimodal-evaluation-lora" target="_blank"><svg class="hf-icon" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg> Multimodal Evaluation</a>
+      </div>
+    </div>
     <a href="#supplementary" class="btn-outline">Supplementary Material</a>
     <a href="#citation" class="btn-outline">Cite</a>
   </div>
@@ -1790,18 +1885,50 @@ optimized_pipeline = optimizer.compile(
 <!-- ============================================================ -->
 <section id="links">
   <h2>Resources</h2>
-  <div class="card-grid">
-    <div class="stat-card">
-      <div class="label" style="margin-bottom:0.5rem;"><strong>Dataset</strong></div>
-      <a href="https://huggingface.co/u94fmn391j" style="color:var(--accent);font-size:0.9rem;">HuggingFace</a>
+
+  <div class="resource-group">
+    <h3>Datasets</h3>
+    <div class="resource-list">
+      <a class="resource-item" href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-small" target="_blank">
+        <svg class="ri-icon" width="24" height="22" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
+        <div><div class="ri-name">CODALM-small</div><div class="ri-desc">100 manually annotated images (50 anomalous, 50 normal) for model selection</div></div>
+      </a>
+      <a class="resource-item" href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-medium" target="_blank">
+        <svg class="ri-icon" width="24" height="22" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
+        <div><div class="ri-name">CODALM-medium</div><div class="ri-desc">5,078 human-validated annotations with balanced test subset (1,020 samples)</div></div>
+      </a>
+      <a class="resource-item" href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-large" target="_blank">
+        <svg class="ri-icon" width="24" height="22" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
+        <div><div class="ri-name">CODALM-large</div><div class="ri-desc">9,640 images fully labeled using SAVANT &mdash; largest semantically-annotated anomaly detection dataset</div></div>
+      </a>
     </div>
-    <div class="stat-card">
-      <div class="label" style="margin-bottom:0.5rem;"><strong>Code</strong></div>
-      <span style="color:var(--text-light);font-size:0.9rem;">Coming soon</span>
+  </div>
+
+  <div class="resource-group">
+    <h3>Models (LoRA Adapters for Qwen2.5-VL-7B)</h3>
+    <div class="resource-list">
+      <a class="resource-item" href="https://huggingface.co/u94fmn391j/SAVANT-scene-description-lora" target="_blank">
+        <svg class="ri-icon" width="24" height="22" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
+        <div><div class="ri-name">Scene Description</div><div class="ri-desc">Phase 1 structured extraction &mdash; generates layered scene descriptions</div></div>
+      </a>
+      <a class="resource-item" href="https://huggingface.co/u94fmn391j/SAVANT-multimodal-evaluation-lora" target="_blank">
+        <svg class="ri-icon" width="24" height="22" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
+        <div><div class="ri-name">Multimodal Evaluation</div><div class="ri-desc">Phase 2 pipeline model &mdash; layer-by-layer anomaly assessment with explanations (PFT)</div></div>
+      </a>
+      <a class="resource-item" href="https://huggingface.co/u94fmn391j/SAVANT-anomaly-classifier-lora" target="_blank">
+        <svg class="ri-icon" width="24" height="22" viewBox="0 0 95 88" fill="#FFD21E" xmlns="http://www.w3.org/2000/svg"><path d="M47.2 0C24.8 0 6.6 17.1 4.3 39.1L0 82.7c-.4 3 1.9 5.3 4.9 5.3h84.2c3 0 5.3-2.4 4.9-5.3L89.7 39C87.4 17.1 69.6 0 47.2 0zm-16 52.8c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8zm31.6 0c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/></svg>
+        <div><div class="ri-name">Anomaly Classifier</div><div class="ri-desc">Single-shot model &mdash; 93.8% accuracy, 90.8% recall, 0.08s inference (FT)</div></div>
+      </a>
     </div>
-    <div class="stat-card">
-      <div class="label" style="margin-bottom:0.5rem;"><strong>Models</strong></div>
-      <a href="https://huggingface.co/u94fmn391j" style="color:var(--accent);font-size:0.9rem;">HuggingFace</a>
+  </div>
+
+  <div class="resource-group">
+    <h3>Code</h3>
+    <div class="resource-list">
+      <div class="resource-item" style="opacity:0.6;cursor:default;">
+        <svg class="ri-icon" width="24" height="24" viewBox="0 0 16 16" fill="var(--text-light)" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <div><div class="ri-name">Framework Implementation</div><div class="ri-desc">Coming soon</div></div>
+      </div>
     </div>
   </div>
 </section>
