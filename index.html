@@ -4,140 +4,175 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SAVANT: Semantic Analysis with Vision-Augmented Anomaly Detection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    :root {
-      --primary: #1a2332;
-      --primary-light: #2c3e50;
-      --accent: #3498db;
-      --accent-dark: #2980b9;
-      --bg: #f8f9fa;
-      --card-bg: #ffffff;
-      --text: #2c3e50;
-      --text-light: #6c757d;
-      --border: #dee2e6;
-      --code-bg: #f4f4f4;
-      --success: #27ae60;
-      --warning: #f39c12;
-    }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.6;
+      font-family: 'Noto Sans', sans-serif;
+      color: #333;
+      background: #fff;
+      line-height: 1.65;
+      font-size: 1rem;
     }
 
-    /* Hero */
+    /* ===== Hero ===== */
     .hero {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      color: white;
-      padding: 3rem 2rem 2.5rem;
+      background: #fff;
+      padding: 4rem 2rem 2.5rem;
       text-align: center;
+      max-width: 960px;
+      margin: 0 auto;
     }
     .hero h1 {
-      font-size: 2.2rem;
-      margin-bottom: 0.3rem;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #222;
       letter-spacing: -0.5px;
+      margin-bottom: 0.3rem;
     }
     .hero .acronym {
-      font-size: 1rem;
-      opacity: 0.85;
-      margin-bottom: 1rem;
-    }
-    .hero .subtitle {
       font-size: 1.05rem;
-      opacity: 0.9;
-      max-width: 700px;
-      margin: 0 auto 1.5rem;
+      color: #555;
+      margin-bottom: 1.2rem;
+    }
+    .hero .authors {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 0.3rem;
+    }
+    .hero .affiliations {
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 1.5rem;
     }
     .hero-links {
       display: flex;
-      gap: 0.8rem;
+      gap: 0.6rem;
       justify-content: center;
       flex-wrap: wrap;
     }
-    .hero-links a {
+
+    /* Pill buttons */
+    .btn-pill {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      padding: 0.5rem 1.2rem;
-      border-radius: 6px;
+      padding: 0.5rem 1.3rem;
+      border-radius: 20px;
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 500;
-      transition: transform 0.15s, box-shadow 0.15s;
+      transition: background 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
     }
-    .hero-links a:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    .btn-dark {
+      background: #363636;
+      color: #fff;
     }
-    .btn-primary { background: var(--accent); color: white; }
-    .btn-outline { background: transparent; color: white; border: 1.5px solid rgba(255,255,255,0.5); }
+    .btn-dark:hover {
+      background: #222;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+    .btn-disabled {
+      background: #d5d5d5;
+      color: #888;
+      cursor: default;
+    }
 
-    /* Nav */
-    .nav {
-      background: white;
-      border-bottom: 1px solid var(--border);
-      padding: 0.6rem 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      gap: 1.5rem;
-      overflow-x: auto;
-      justify-content: center;
+    /* Dropdowns */
+    .dropdown {
+      position: relative;
+      display: inline-block;
     }
-    .nav a {
-      color: var(--text-light);
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 240px;
+      z-index: 200;
+      padding-top: 0.4rem;
+    }
+    .dropdown-content-inner {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      overflow: hidden;
+      border: 1px solid #eee;
+    }
+    .dropdown:hover .dropdown-content,
+    .dropdown:focus-within .dropdown-content {
+      display: block;
+    }
+    .dropdown-content a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      color: #333;
       text-decoration: none;
       font-size: 0.85rem;
-      white-space: nowrap;
-      padding: 0.3rem 0;
-      border-bottom: 2px solid transparent;
-      transition: color 0.2s, border-color 0.2s;
+      font-weight: 400;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.15s;
     }
-    .nav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+    .dropdown-content a:last-child { border-bottom: none; }
+    .dropdown-content a:hover { background: #f9f9f9; }
+    .dropdown-content .dropdown-note {
+      padding: 0.8rem 1rem;
+      font-size: 0.85rem;
+      color: #888;
+      text-align: center;
+    }
 
-    /* Container */
+    /* ===== Container ===== */
     .container {
       max-width: 960px;
       margin: 0 auto;
-      padding: 0 1.5rem;
+      padding: 0 2rem;
     }
 
-    /* Sections */
+    /* ===== Sections ===== */
     section {
       padding: 2.5rem 0;
     }
     section + section {
-      border-top: 1px solid var(--border);
-    }
-    h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--primary);
-    }
-    h3 {
-      font-size: 1.15rem;
-      margin: 1.5rem 0 0.6rem;
-      color: var(--primary-light);
-    }
-    h4 {
-      font-size: 1rem;
-      margin: 1rem 0 0.4rem;
-      color: var(--text);
+      border-top: 1px solid #eee;
     }
 
-    /* Cards */
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin: 1rem 0;
+    /* ===== Typography ===== */
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 1rem;
     }
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #333;
+      margin: 1.5rem 0 0.6rem;
+    }
+    h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #444;
+      margin: 1rem 0 0.4rem;
+    }
+    p { margin-bottom: 0.75rem; }
+    ul, ol { margin: 0.5rem 0 0.8rem 1.5rem; }
+    li { margin-bottom: 0.3rem; }
+    a { color: #4a6fa5; }
+
+    /* ===== Stat cards ===== */
     .card-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -145,8 +180,8 @@
       margin: 1rem 0;
     }
     .stat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
+      background: #fafafa;
+      border: 1px solid #eee;
       border-radius: 8px;
       padding: 1.2rem;
       text-align: center;
@@ -154,35 +189,37 @@
     .stat-card .number {
       font-size: 2rem;
       font-weight: 700;
-      color: var(--accent);
+      color: #4a6fa5;
     }
     .stat-card .label {
       font-size: 0.85rem;
-      color: var(--text-light);
+      color: #666;
       margin-top: 0.2rem;
     }
 
-    /* Figures */
+    /* ===== Figures ===== */
     .figure {
       margin: 1.5rem 0;
       text-align: center;
     }
     .figure img {
       max-width: 100%;
-      border-radius: 6px;
-      border: 1px solid var(--border);
+      border-radius: 4px;
     }
     .figure figcaption, .figure .caption {
       font-size: 0.85rem;
-      color: var(--text-light);
+      color: #666;
       margin-top: 0.5rem;
       font-style: italic;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    /* Code blocks */
+    /* ===== Code blocks ===== */
     pre {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
+      background: #f5f5f5;
+      border: 1px solid #e8e8e8;
       border-radius: 6px;
       padding: 1rem;
       overflow-x: auto;
@@ -191,11 +228,11 @@
       margin: 0.8rem 0;
     }
     code {
-      font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+      font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
       font-size: 0.8rem;
     }
     p code, li code {
-      background: var(--code-bg);
+      background: #f5f5f5;
       padding: 0.15rem 0.4rem;
       border-radius: 3px;
       font-size: 0.82em;
@@ -203,22 +240,22 @@
     .code-label {
       font-size: 0.78rem;
       font-weight: 600;
-      color: var(--text-light);
+      color: #888;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 0.3rem;
     }
 
-    /* Collapsible */
+    /* ===== Collapsible ===== */
     details {
       margin: 0.8rem 0;
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      border: 1px solid #e8e8e8;
+      border-radius: 8px;
       overflow: hidden;
     }
     summary {
       padding: 0.8rem 1rem;
-      background: var(--card-bg);
+      background: #fafafa;
       cursor: pointer;
       font-weight: 600;
       font-size: 0.95rem;
@@ -227,10 +264,13 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      transition: background 0.15s;
     }
+    summary:hover { background: #f2f2f2; }
     summary::before {
       content: '\25B6';
-      font-size: 0.7rem;
+      font-size: 0.65rem;
+      color: #888;
       transition: transform 0.2s;
     }
     details[open] > summary::before {
@@ -239,11 +279,10 @@
     summary::-webkit-details-marker { display: none; }
     details > .details-content {
       padding: 1rem;
-      border-top: 1px solid var(--border);
-      background: var(--bg);
+      border-top: 1px solid #e8e8e8;
     }
 
-    /* Architecture diagram container */
+    /* ===== Architecture diagram ===== */
     .arch-diagram {
       text-align: center;
       margin: 1rem 0;
@@ -253,7 +292,7 @@
       width: 100%;
     }
 
-    /* Table */
+    /* ===== Tables ===== */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -262,17 +301,17 @@
     }
     th, td {
       padding: 0.5rem 0.8rem;
-      border: 1px solid var(--border);
+      border: 1px solid #e8e8e8;
       text-align: center;
     }
     th {
-      background: var(--primary);
-      color: white;
+      background: #f5f5f5;
+      color: #333;
       font-weight: 600;
     }
-    tr:nth-child(even) { background: #f8f9fa; }
+    tr:nth-child(even) { background: #fafafa; }
 
-    /* Anomaly examples grid */
+    /* ===== Examples grid ===== */
     .examples-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -284,76 +323,26 @@
     }
     .examples-grid img {
       width: 100%;
-      border-radius: 6px;
-      border: 1px solid var(--border);
+      border-radius: 4px;
     }
     .examples-grid .caption {
       font-size: 0.8rem;
-      color: var(--text-light);
+      color: #666;
       margin-top: 0.3rem;
     }
 
-    /* Badge */
-    .badge {
-      display: inline-block;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-    .badge-correct { background: #d4edda; color: #155724; }
-    .badge-incorrect { background: #f8d7da; color: #721c24; }
-
-    /* Citation */
-    .citation-block {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1rem;
-      font-family: monospace;
-      font-size: 0.8rem;
-      white-space: pre-wrap;
-      position: relative;
-    }
-    .copy-btn {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      padding: 0.3rem 0.6rem;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      background: white;
-      cursor: pointer;
-      font-size: 0.75rem;
-    }
-    .copy-btn:hover { background: var(--bg); }
-
-    /* Footer */
-    footer {
-      background: var(--primary);
-      color: rgba(255,255,255,0.7);
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.85rem;
-    }
-
-    /* Method card styling */
-    .method-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-    }
+    /* ===== Method tag ===== */
     .method-tag {
-      font-family: monospace;
-      background: var(--primary);
+      font-family: 'SFMono-Regular', 'Consolas', monospace;
+      background: #363636;
       color: white;
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
-      font-size: 0.85rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      font-weight: 500;
     }
 
-    /* Prediction comparison */
+    /* ===== Prediction boxes ===== */
     .prediction-box {
       border-left: 4px solid;
       padding: 0.8rem 1rem;
@@ -361,7 +350,7 @@
       border-radius: 0 6px 6px 0;
     }
     .prediction-box.correct {
-      border-left-color: var(--success);
+      border-left-color: #27ae60;
       background: #f0fdf4;
     }
     .prediction-box.incorrect {
@@ -374,95 +363,56 @@
       margin-bottom: 0.3rem;
     }
 
-    /* Python syntax highlighting (basic) */
-    .kw { color: #0000ff; }
-    .str { color: #a31515; }
-    .cmt { color: #008000; }
-    .fn { color: #795e26; }
-    .cls { color: #267f99; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 1.6rem; }
-      .examples-grid { grid-template-columns: 1fr; }
-      .card-grid { grid-template-columns: 1fr 1fr; }
-      .nav { padding: 0.5rem 1rem; gap: 1rem; }
-    }
-
-    /* Smooth scroll */
-    html { scroll-behavior: smooth; }
-
-    /* Supp label */
-    .supp-badge {
+    /* ===== Badges ===== */
+    .badge {
       display: inline-block;
-      background: var(--warning);
-      color: white;
-      padding: 0.2rem 0.6rem;
+      padding: 0.15rem 0.5rem;
       border-radius: 4px;
       font-size: 0.75rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
+      font-weight: 600;
     }
+    .badge-correct { background: #d4edda; color: #155724; }
+    .badge-incorrect { background: #f8d7da; color: #721c24; }
 
-    p { margin-bottom: 0.7rem; }
-    ul, ol { margin: 0.5rem 0 0.8rem 1.5rem; }
-    li { margin-bottom: 0.3rem; }
-
-    /* Dropdown buttons */
-    .dropdown {
-      position: relative;
+    /* ===== Supplementary badge ===== */
+    .supp-badge {
       display: inline-block;
+      background: #f0ad4e;
+      color: white;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      vertical-align: middle;
+      margin-right: 0.3rem;
     }
-    .dropdown-content {
-      display: none;
+
+    /* ===== Citation ===== */
+    .citation-block {
+      background: #f5f5f5;
+      border: 1px solid #e8e8e8;
+      border-radius: 6px;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      position: relative;
+    }
+    .copy-btn {
       position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      min-width: 220px;
-      z-index: 200;
-      padding-top: 0.5rem;
-    }
-    .dropdown-content-inner {
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.3rem 0.6rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
       background: white;
-      border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      overflow: hidden;
-    }
-    .dropdown:hover .dropdown-content,
-    .dropdown:focus-within .dropdown-content {
-      display: block;
-    }
-    .dropdown-content a {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1rem;
-      color: var(--text);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 400;
-      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 0.75rem;
       transition: background 0.15s;
     }
-    .dropdown-content a:last-child { border-bottom: none; }
-    .dropdown-content a:hover { background: var(--bg); }
-    .dropdown-header {
-      padding: 0.5rem 1rem 0.3rem;
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-light);
-      background: var(--bg);
-    }
-    .hf-icon {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
+    .copy-btn:hover { background: #f5f5f5; }
 
-    /* Resource cards */
+    /* ===== Resource cards ===== */
     .resource-group { margin-bottom: 1.5rem; }
     .resource-group h3 { margin-bottom: 0.8rem; }
     .resource-list {
@@ -475,20 +425,43 @@
       align-items: center;
       gap: 0.8rem;
       padding: 0.8rem 1rem;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 8px;
       text-decoration: none;
-      color: var(--text);
+      color: #333;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
     .resource-item:hover {
-      border-color: var(--accent);
-      box-shadow: 0 2px 8px rgba(52,152,219,0.1);
+      border-color: #4a6fa5;
+      box-shadow: 0 2px 8px rgba(74,111,165,0.1);
     }
     .resource-item .ri-icon { flex-shrink: 0; }
     .resource-item .ri-name { font-weight: 600; font-size: 0.9rem; }
-    .resource-item .ri-desc { font-size: 0.8rem; color: var(--text-light); }
+    .resource-item .ri-desc { font-size: 0.8rem; color: #666; }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      color: #999;
+      border-top: 1px solid #eee;
+      margin-top: 1rem;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .hero { padding: 2.5rem 1.5rem 2rem; }
+      .hero h1 { font-size: 2rem; }
+      .hero-links { flex-direction: column; align-items: center; }
+      .examples-grid { grid-template-columns: 1fr; }
+      .card-grid { grid-template-columns: 1fr 1fr; }
+      .container { padding: 0 1.2rem; }
+    }
+    @media (max-width: 480px) {
+      .card-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -499,49 +472,33 @@
 <div class="hero">
   <h1>SAVANT</h1>
   <div class="acronym">Semantic Analysis with Vision-Augmented Anomaly deTection</div>
-  <p class="subtitle">A structured reasoning framework that reformulates VLM-based anomaly detection as layered semantic consistency verification for autonomous driving.</p>
+  <div class="authors">Anonymous Authors</div>
   <div class="hero-links">
     <div class="dropdown">
-      <a href="#links" class="btn-primary">&#129303; Datasets &#9662;</a>
+      <a href="#abstract" class="btn-pill btn-dark"><i class="fa-solid fa-file-lines"></i> Paper <i class="fa-solid fa-caret-down" style="font-size:0.7rem;margin-left:0.1rem;"></i></a>
       <div class="dropdown-content"><div class="dropdown-content-inner">
-        <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-small" target="_blank">&#129303; CODALM-small <span style="color:var(--text-light);font-size:0.75rem;margin-left:auto;">100 images</span></a>
-        <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-medium" target="_blank">&#129303; CODALM-medium <span style="color:var(--text-light);font-size:0.75rem;margin-left:auto;">5,078 images</span></a>
-        <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-large" target="_blank">&#129303; CODALM-large <span style="color:var(--text-light);font-size:0.75rem;margin-left:auto;">9,640 images</span></a>
+        <div class="dropdown-note">Currently under peer review</div>
       </div></div>
     </div>
     <div class="dropdown">
-      <a href="#links" class="btn-primary">&#129303; Models &#9662;</a>
+      <a href="#links" class="btn-pill btn-dark"><i class="fa-solid fa-database"></i> Datasets <i class="fa-solid fa-caret-down" style="font-size:0.7rem;margin-left:0.1rem;"></i></a>
+      <div class="dropdown-content"><div class="dropdown-content-inner">
+        <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-small" target="_blank">&#129303; CODALM-small <span style="color:#888;font-size:0.75rem;margin-left:auto;">100 images</span></a>
+        <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-medium" target="_blank">&#129303; CODALM-medium <span style="color:#888;font-size:0.75rem;margin-left:auto;">5,078 images</span></a>
+        <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-large" target="_blank">&#129303; CODALM-large <span style="color:#888;font-size:0.75rem;margin-left:auto;">9,640 images</span></a>
+      </div></div>
+    </div>
+    <div class="dropdown">
+      <a href="#links" class="btn-pill btn-dark"><i class="fa-solid fa-cube"></i> Models <i class="fa-solid fa-caret-down" style="font-size:0.7rem;margin-left:0.1rem;"></i></a>
       <div class="dropdown-content"><div class="dropdown-content-inner">
         <a href="https://huggingface.co/u94fmn391j/SAVANT-scene-description-lora" target="_blank">&#129303; Scene Description</a>
         <a href="https://huggingface.co/u94fmn391j/SAVANT-anomaly-classifier-lora" target="_blank">&#129303; Anomaly Classifier</a>
         <a href="https://huggingface.co/u94fmn391j/SAVANT-multimodal-evaluation-lora" target="_blank">&#129303; Multimodal Evaluation</a>
       </div></div>
     </div>
-    <div class="dropdown">
-      <a href="#abstract" class="btn-outline">Paper &#9662;</a>
-      <div class="dropdown-content"><div class="dropdown-content-inner">
-        <div style="padding:0.8rem 1rem;font-size:0.85rem;color:var(--text-light);text-align:center;">Currently under peer review</div>
-      </div></div>
-    </div>
-    <a href="#supplementary" class="btn-outline">Supplementary Material</a>
-    <a href="#citation" class="btn-outline">Cite</a>
+    <span class="btn-pill btn-disabled"><i class="fa-brands fa-github"></i> Code (coming soon)</span>
   </div>
 </div>
-
-<!-- ============================================================ -->
-<!-- NAV -->
-<!-- ============================================================ -->
-<nav class="nav">
-  <a href="#abstract">Abstract</a>
-  <a href="#framework">Framework</a>
-  <a href="#results">Results</a>
-  <a href="#supplementary">Supplementary</a>
-  <a href="#methods">Methods &amp; Prompts</a>
-  <a href="#extraction">Extraction Prompts</a>
-  <a href="#dspy">DSPy Details</a>
-  <a href="#examples">Model Outputs</a>
-  <a href="#citation">Citation</a>
-</nav>
 
 <div class="container">
 
@@ -689,7 +646,7 @@
       </tr>
     </tbody>
   </table>
-  <p style="font-size:0.85rem;color:var(--text-light);">NFT = Non-Fine-Tuned, FT = Fine-Tuned Single-Shot, PFT = Pipeline Fine-Tuned. T = Inference time.</p>
+  <p style="font-size:0.85rem;color:#888;">NFT = Non-Fine-Tuned, FT = Fine-Tuned Single-Shot, PFT = Pipeline Fine-Tuned. T = Inference time.</p>
 
   <h3>Resolution Analysis</h3>
   <div class="figure">
@@ -1674,57 +1631,57 @@ and then ending with the marker for `[[ ## completed ## ]]`.</code></pre>
   <p>We leverage <a href="https://github.com/stanfordnlp/dspy">DSPy</a> for systematic prompt optimization and pipeline composition.</p>
 
   <h3>Signature Definitions</h3>
-<pre><code><span class="kw">import</span> dspy
+<pre><code>import dspy
 
-<span class="kw">class</span> <span class="cls">SceneDescription</span>(dspy.Signature):
-    <span class="str">"""Extract structured scene description."""</span>
+class SceneDescription(dspy.Signature):
+    """Extract structured scene description."""
     image: dspy.Image = dspy.InputField()
-    street_layer: <span class="cls">str</span> = dspy.OutputField()
-    infrastructure_layer: <span class="cls">str</span> = dspy.OutputField()
-    movable_objects_layer: <span class="cls">str</span> = dspy.OutputField()
-    environmental_layer: <span class="cls">str</span> = dspy.OutputField()
+    street_layer: str = dspy.OutputField()
+    infrastructure_layer: str = dspy.OutputField()
+    movable_objects_layer: str = dspy.OutputField()
+    environmental_layer: str = dspy.OutputField()
 
-<span class="kw">class</span> <span class="cls">AnomalyEvaluation</span>(dspy.Signature):
-    <span class="str">"""Evaluate scene for semantic anomalies."""</span>
+class AnomalyEvaluation(dspy.Signature):
+    """Evaluate scene for semantic anomalies."""
     image: dspy.Image = dspy.InputField()
-    description: <span class="cls">str</span> = dspy.InputField()
-    classification: <span class="cls">str</span> = dspy.OutputField()
-    confidence: <span class="cls">float</span> = dspy.OutputField()
-    reasoning: <span class="cls">str</span> = dspy.OutputField()</code></pre>
+    description: str = dspy.InputField()
+    classification: str = dspy.OutputField()
+    confidence: float = dspy.OutputField()
+    reasoning: str = dspy.OutputField()</code></pre>
 
   <h3>Pipeline Module</h3>
-<pre><code><span class="kw">class</span> <span class="cls">SAVANTPipeline</span>(dspy.Module):
-    <span class="kw">def</span> <span class="fn">__init__</span>(self):
-        <span class="kw">super</span>().__init__()
+<pre><code>class SAVANTPipeline(dspy.Module):
+    def __init__(self):
+        super().__init__()
         self.describe = dspy.ChainOfThought(SceneDescription)
         self.evaluate = dspy.ChainOfThought(AnomalyEvaluation)
 
-    <span class="kw">def</span> <span class="fn">forward</span>(self, image):
+    def forward(self, image):
         desc = self.describe(image=image)
-        full_desc = <span class="str">f"Street: {desc.street_layer}\n"</span>
-        full_desc += <span class="str">f"Infra: {desc.infrastructure_layer}\n"</span>
-        full_desc += <span class="str">f"Objects: {desc.movable_objects_layer}\n"</span>
-        full_desc += <span class="str">f"Env: {desc.environmental_layer}"</span>
-        <span class="kw">return</span> self.evaluate(image=image, description=full_desc)</code></pre>
+        full_desc = f"Street: {desc.street_layer}\n"
+        full_desc += f"Infra: {desc.infrastructure_layer}\n"
+        full_desc += f"Objects: {desc.movable_objects_layer}\n"
+        full_desc += f"Env: {desc.environmental_layer}"
+        return self.evaluate(image=image, description=full_desc)</code></pre>
 
   <h3>Optimization Configuration</h3>
-<pre><code><span class="kw">from</span> dspy.teleprompt <span class="kw">import</span> MIPROv2
+<pre><code>from dspy.teleprompt import MIPROv2
 
-<span class="kw">def</span> <span class="fn">anomaly_metric</span>(example, prediction, trace=<span class="kw">None</span>):
-    <span class="kw">return</span> <span class="cls">1.0</span> <span class="kw">if</span> example.label == \
-        prediction.classification <span class="kw">else</span> <span class="cls">0.0</span>
+def anomaly_metric(example, prediction, trace=None):
+    return 1.0 if example.label == \
+        prediction.classification else 0.0
 
 optimizer = MIPROv2(
     metric=anomaly_metric,
-    num_candidates=<span class="cls">10</span>,
-    init_temperature=<span class="cls">1.0</span>,
-    num_threads=<span class="cls">4</span>
+    num_candidates=10,
+    init_temperature=1.0,
+    num_threads=4
 )
 optimized_pipeline = optimizer.compile(
     SAVANTPipeline(),
     trainset=train_examples,
-    max_bootstrapped_demos=<span class="cls">4</span>,
-    max_labeled_demos=<span class="cls">8</span>
+    max_bootstrapped_demos=4,
+    max_labeled_demos=8
 )</code></pre>
 </section>
 
@@ -1873,23 +1830,7 @@ optimized_pipeline = optimizer.compile(
 </section>
 
 <!-- ============================================================ -->
-<!-- CITATION -->
-<!-- ============================================================ -->
-<section id="citation">
-  <h2>Citation</h2>
-  <div class="citation-block">
-    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.querySelector('.bibtex').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button>
-<span class="bibtex">@inproceedings{brusnicki2026savant,
-  title={SAVANT: Semantic Analysis with Vision-Augmented Anomaly deTection},
-  author={Brusnicki, Roberto and Pop, David and Gao, Yuan and Piccinini, Mattia and Betz, Johannes},
-  booktitle={IEEE International Conference on Intelligent Transportation Systems (ITSC)},
-  year={2026}
-}</span>
-  </div>
-</section>
-
-<!-- ============================================================ -->
-<!-- LINKS -->
+<!-- RESOURCES -->
 <!-- ============================================================ -->
 <section id="links">
   <h2>Resources</h2>
@@ -1934,10 +1875,26 @@ optimized_pipeline = optimizer.compile(
     <h3>Code</h3>
     <div class="resource-list">
       <div class="resource-item" style="opacity:0.6;cursor:default;">
-        <svg class="ri-icon" width="24" height="24" viewBox="0 0 16 16" fill="var(--text-light)" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <svg class="ri-icon" width="24" height="24" viewBox="0 0 16 16" fill="#888" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         <div><div class="ri-name">Framework Implementation</div><div class="ri-desc">Coming soon</div></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CITATION -->
+<!-- ============================================================ -->
+<section id="citation">
+  <h2>Citation</h2>
+  <div class="citation-block">
+    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.querySelector('.bibtex').textContent).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)})">Copy</button>
+<span class="bibtex">@inproceedings{anonymous2026savant,
+  title={SAVANT: Semantic Analysis with Vision-Augmented Anomaly deTection},
+  author={Anonymous},
+  booktitle={Under Review},
+  year={2026}
+}</span>
   </div>
 </section>
 
