@@ -1699,6 +1699,27 @@ optimized_pipeline = optimizer.compile(
 
   <!-- NFT -->
   <h3>Base Model Without Fine-tuning (NFT)</h3>
+  <details>
+    <summary>Prompt Template (NFT)</summary>
+    <div class="details-content">
+<pre><code>You are a fault monitor for a visual autonomous vehicle system.
+Your task is to analyze the traffic scene and identify any anomalies that could affect vehicle safety, cause the vehicle to take unsafe actions or violate traffic rules.
+Determine if the scene constitutes a normal observation or an anomaly and explain your reasoning.
+Normal observations do not detrimentally affect the vehicle's performance, whereas anomalies might.
+
+IMPORTANT: You must provide your response in the exact JSON format with ALL required fields:
+{
+  "is_anomaly": true/false,
+  "explanation": "Final explanation of why the scene is or is not anomalous"
+}
+
+Analyze the provided traffic scene image for anomalies. Consider:
+1. Is there anything unusual about this situation?
+2. Does this have an effect on the ego vehicle?
+3. Can this influence the ego vehicle's behavior?
+4. Can the ego vehicle drive safely in this scenario?</code></pre>
+    </div>
+  </details>
   <div class="prediction-box incorrect">
     <div class="prediction-label">Prediction: Normal <span class="badge badge-incorrect">Incorrect</span></div>
   </div>
@@ -1715,6 +1736,27 @@ optimized_pipeline = optimizer.compile(
 
   <!-- FT -->
   <h3>Fine-tuned Single-Shot (FT)</h3>
+  <details>
+    <summary>Prompt Template (FT)</summary>
+    <div class="details-content">
+<pre><code>You are a fault monitor for a visual autonomous vehicle system.
+Your task is to analyze the traffic scene layer by layer and identify any anomalies that could affect vehicle safety, cause the vehicle to take unsafe actions or violate traffic rules.
+For each layer, determine if constitutes a normal observation or an anomaly and explain your reasoning.
+Normal observtions do not detrimentally affect the vehicle's performance, whereas anomalies might.
+
+Finally, provide an overall assessment.
+
+Analyze this traffic scene image and determine if it contains any anomalies that could affect vehicle safety, cause unsafe actions, or violate traffic rules.
+
+Consider all layers:
+- Street Layer: Road geometry, topology, surface, lane markings
+- Infrastructure Layer: Traffic lights, signs, cones, barriers, construction
+- Movable Objects Layer: Vehicles, pedestrians, dynamic entities
+- Environmental Layer: Weather, visibility, lighting
+
+Respond with only: "anomaly" or "normal"</code></pre>
+    </div>
+  </details>
   <div class="prediction-box correct">
     <div class="prediction-label">Prediction: Anomaly <span class="badge badge-correct">Correct</span></div>
   </div>
@@ -1723,6 +1765,90 @@ optimized_pipeline = optimizer.compile(
 
   <!-- PFT -->
   <h3>Pipeline Fine-tuned (PFT)</h3>
+  <details>
+    <summary>Prompt Template &mdash; Phase 1: Scene Description (PFT)</summary>
+    <div class="details-content">
+<pre><code>You are an expert at analyzing traffic scenes for autonomous vehicles. Your task is to provide detailed, structured descriptions across four distinct layers using the optimized framework.
+
+Analyze this traffic scene image using the four-layer framework:
+
+1. **Street Layer**: Assess the road's geometry (lane configuration, curves, gradients), topology (intersections, merges, splits), surface condition (material, damage, wetness), and lane markings (visibility, type, condition).
+
+2. **Infrastructure Layer**: Investigate traffic control devices including traffic lights (state, visibility, positioning), signs (type, condition, placement), cones (placement, condition), barriers (type, condition), and construction sites (legitimacy, safety measures).
+
+3. **Movable Objects Layer**: Observe and describe vehicles (type, position, orientation, behavior), pedestrians (location, movement, safety), and other dynamic objects (animals, debris, unusual items).
+
+4. **Environmental Layer**: Evaluate weather conditions (precipitation, wind, temperature effects), visibility (clear, fog, glare), and lighting (daylight, artificial, shadows).
+
+Provide your response in this exact JSON format:
+
+{
+  "street_layer": {
+    "geometry": "Detailed analysis of road geometry...",
+    "topology": "Detailed analysis of road topology...",
+    "surface": "Detailed analysis of surface condition...",
+    "lane_markings": "Detailed analysis of lane markings..."
+  },
+  "infrastructure_layer": {
+    "traffic_lights": "Analysis of traffic lights or 'None'",
+    "traffic_signs": "Analysis of traffic signs or 'None'",
+    "traffic_cones": "Analysis of traffic cones or 'None'",
+    "traffic_barriers": "Analysis of barriers or 'None'",
+    "construction_sites": "Analysis of construction sites or 'None'"
+  },
+  "movable_objects_layer": {
+    "vehicles": "Analysis of vehicles or 'None'",
+    "pedestrians": "Analysis of pedestrians or 'None'",
+    "others": "Analysis of other objects or 'None'"
+  },
+  "environmental_layer": {
+    "weather": "Analysis of weather conditions",
+    "visibility": "Analysis of visibility conditions",
+    "lighting": "Analysis of lighting conditions"
+  }
+}</code></pre>
+    </div>
+  </details>
+  <details>
+    <summary>Prompt Template &mdash; Phase 2: Multimodal Evaluation (PFT)</summary>
+    <div class="details-content">
+<pre><code>You are a fault monitor for a visual autonomous vehicle system.
+Your task is to analyze the traffic scene layer by layer and identify any anomalies that could affect vehicle safety, cause the vehicle to take unsafe actions or violate traffic rules.
+For each layer, determine if constitutes a normal observation or an anomaly and explain your reasoning.
+Normal observtions do not detrimentally affect the vehicle's performance, whereas anomalies might.
+
+Finally, provide an overall assessment.
+
+Analyze the provided image and scene description for anomalies using systematic layer-by-layer evaluation.
+
+Scene Description:
+{scene_description}
+
+Perform the following analysis:
+
+1. **Reasoning**: Think step by step about potential anomalies in each layer
+2. **Street Layer Analysis**: Analyze street-level anomalies (topology, geometry, surface, lane markings)
+3. **Infrastructure Layer Analysis**: Analyze infrastructure anomalies (traffic lights, signs, cones, barriers, construction)
+4. **Movable Objects Layer Analysis**: Analyze movable object anomalies (vehicles, pedestrians, etc.)
+5. **Environmental Layer Analysis**: Analyze environmental anomalies (weather, visibility)
+
+Provide your assessment in this exact JSON format:
+
+{
+  "reasoning": "Step-by-step reasoning about potential anomalies...",
+  "street_layer_analysis": "Detailed analysis of street layer...",
+  "street_layer_anomaly": true/false,
+  "infrastructure_layer_analysis": "Detailed analysis of infrastructure layer...",
+  "infrastructure_layer_anomaly": true/false,
+  "movable_objects_layer_analysis": "Detailed analysis of movable objects layer...",
+  "movable_objects_layer_anomaly": true/false,
+  "environmental_layer_analysis": "Detailed analysis of environmental layer...",
+  "environmental_layer_anomaly": true/false,
+  "is_anomaly": true/false,
+  "explanation": "Overall explanation considering all layers and their interactions..."
+}</code></pre>
+    </div>
+  </details>
   <div class="prediction-box correct">
     <div class="prediction-label">Prediction: Anomaly <span class="badge badge-correct">Correct</span></div>
   </div>
