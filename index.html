@@ -419,12 +419,14 @@
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
+      min-width: 220px;
+      z-index: 200;
+      padding-top: 0.5rem;
+    }
+    .dropdown-content-inner {
       background: white;
       border-radius: 8px;
       box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      min-width: 220px;
-      z-index: 200;
-      margin-top: 0.4rem;
       overflow: hidden;
     }
     .dropdown:hover .dropdown-content,
@@ -501,25 +503,25 @@
   <div class="hero-links">
     <div class="dropdown">
       <a href="#links" class="btn-primary">&#129303; Datasets &#9662;</a>
-      <div class="dropdown-content">
+      <div class="dropdown-content"><div class="dropdown-content-inner">
         <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-small" target="_blank">&#129303; CODALM-small <span style="color:var(--text-light);font-size:0.75rem;margin-left:auto;">100 images</span></a>
         <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-medium" target="_blank">&#129303; CODALM-medium <span style="color:var(--text-light);font-size:0.75rem;margin-left:auto;">5,078 images</span></a>
         <a href="https://huggingface.co/datasets/u94fmn391j/SAVANT-CODALM-large" target="_blank">&#129303; CODALM-large <span style="color:var(--text-light);font-size:0.75rem;margin-left:auto;">9,640 images</span></a>
-      </div>
+      </div></div>
     </div>
     <div class="dropdown">
       <a href="#links" class="btn-primary">&#129303; Models &#9662;</a>
-      <div class="dropdown-content">
+      <div class="dropdown-content"><div class="dropdown-content-inner">
         <a href="https://huggingface.co/u94fmn391j/SAVANT-scene-description-lora" target="_blank">&#129303; Scene Description</a>
         <a href="https://huggingface.co/u94fmn391j/SAVANT-anomaly-classifier-lora" target="_blank">&#129303; Anomaly Classifier</a>
         <a href="https://huggingface.co/u94fmn391j/SAVANT-multimodal-evaluation-lora" target="_blank">&#129303; Multimodal Evaluation</a>
-      </div>
+      </div></div>
     </div>
     <div class="dropdown">
       <a href="#abstract" class="btn-outline">Paper &#9662;</a>
-      <div class="dropdown-content">
+      <div class="dropdown-content"><div class="dropdown-content-inner">
         <div style="padding:0.8rem 1rem;font-size:0.85rem;color:var(--text-light);text-align:center;">Currently under peer review</div>
-      </div>
+      </div></div>
     </div>
     <a href="#supplementary" class="btn-outline">Supplementary Material</a>
     <a href="#citation" class="btn-outline">Cite</a>
